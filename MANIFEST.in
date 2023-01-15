@@ -1,0 +1,2 @@
+include gym_taco_environments/envs/bandits/v0/assets/fonts/*
+include gym_taco_environments/envs/bandits/v0/assets/graphics/*

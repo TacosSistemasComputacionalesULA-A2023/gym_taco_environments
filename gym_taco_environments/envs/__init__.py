@@ -1,0 +1,1 @@
+from gym_taco_environments.envs.bandits.v0.bandits import TwoArmedBanditEnv as TwoArmedBanditEnvV0
