@@ -61,9 +61,20 @@ class TwoArmedBanditEnv(gym.Env):
 
         return observation, self.reward, False, False, info
 
-    def _render_props(self):
-        if self.reward is None or self.action is None:
-            return
+    def render_main_elements(self):
+        # Render total reward
+        total_reward_font = settings.FONTS['large']
+        total_reward_text_obj = total_reward_font.render(f"{self.total_reward}", True, (255, 255, 255))
+        total_reward_text_rect = total_reward_text_obj.get_rect()
+        total_reward_text_rect.center = (settings.WINDOW_WIDTH/2, settings.WINDOWS_HEIGHT/2)
+        self.window.blit(total_reward_text_obj, total_reward_text_rect)
+
+        # Render the first machine
+        self.window.blit(settings.TEXTURES['machine'], (50, 100))
+
+        # Render the second machine
+        self.window.blit(
+            settings.TEXTURES['machine'], (100 + settings.MACHINE_WIDTH, 100))
 
         x = 50 + settings.MACHINE_WIDTH / 2
 
@@ -76,31 +87,50 @@ class TwoArmedBanditEnv(gym.Env):
         self.window.blit(arrow, (x - w / 2 - 80, 150 +
                          settings.MACHINE_HEIGHT - h / 2))
 
-        # Render the reward
+    def _render_props(self):
+        self.total_reward += self.reward
+        self.window.fill((0, 0, 0))
+
+        if self.reward is None or self.action is None:
+            return
+
+        x = 50 + settings.MACHINE_WIDTH / 2
+
+        if self.action == 1:
+            x += 50 + settings.MACHINE_WIDTH
+
         reward_font = settings.FONTS['large']
         text_obj = reward_font.render(f"{self.reward}", True, (255, 250, 26))
         text_rect = text_obj.get_rect()
-        text_rect.center = (x, 80)
-        self.window.blit(text_obj, text_rect)
 
-        # Render total reward
-        total_reward_font = settings.FONTS['large']
-        self.total_reward += self.reward
-        total_reward_text_obj = total_reward_font.render(f"{self.total_reward}", True, (255, 255, 255))
-        total_reward_text_rect = total_reward_text_obj.get_rect()
-        total_reward_text_rect.center = (settings.WINDOW_WIDTH/2, settings.WINDOWS_HEIGHT/2)
-        self.window.blit(total_reward_text_obj, total_reward_text_rect)
+        if self.reward == 0:
+            self.render_main_elements()
+            text_obj = reward_font.render(f"{self.reward}", True, (255, 255, 255))
+            text_rect.center = (x, 80)
+            self.window.blit(text_obj, text_rect)
+            pygame.display.update()
+            time.sleep(1)
+            self.window.fill((0, 0, 0))
+            self.render_main_elements()
+            text_obj = reward_font.render(f"{self.reward}", True, (255, 250, 26))
+            self.window.blit(text_obj, text_rect)
+            pygame.display.update()
+        else:
+            # Render the reward
+            for n in range(15):
+                self.window.fill((0, 0, 0))
+                self.render_main_elements()
+                text_rect.center = (x, 80 - n)
+                self.window.blit(text_obj, text_rect)
+                pygame.display.update()
+            for n in range(15):
+                self.window.fill((0, 0, 0))
+                self.render_main_elements()
+                text_rect.center = (x, 80 + n)
+                self.window.blit(text_obj, text_rect)
+                pygame.display.update()
 
     def render(self):
-        self.window.fill((0, 0, 0))
-
-        # Render the first machine
-        self.window.blit(settings.TEXTURES['machine'], (50, 100))
-
-        # Render the second machine
-        self.window.blit(
-            settings.TEXTURES['machine'], (100 + settings.MACHINE_WIDTH, 100))
-
         self._render_props()
 
         pygame.event.pump()
