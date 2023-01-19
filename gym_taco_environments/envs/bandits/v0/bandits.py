@@ -19,6 +19,7 @@ class Arm:
 
 class TwoArmedBanditEnv(gym.Env):
     def __init__(self):
+        self.total_reward = 0
         self.delay = 0.5
         self.arms = (Arm(0.5, 1), Arm(0.1, 100))
         self.observation_space = spaces.Discrete(1)
@@ -76,11 +77,19 @@ class TwoArmedBanditEnv(gym.Env):
                          settings.MACHINE_HEIGHT - h / 2))
 
         # Render the reward
-        font = settings.FONTS['large']
-        text_obj = font.render(f"{self.reward}", True, (255, 250, 26))
+        reward_font = settings.FONTS['large']
+        text_obj = reward_font.render(f"{self.reward}", True, (255, 250, 26))
         text_rect = text_obj.get_rect()
         text_rect.center = (x, 80)
         self.window.blit(text_obj, text_rect)
+
+        # Render total reward
+        total_reward_font = settings.FONTS['large']
+        self.total_reward += self.reward
+        total_reward_text_obj = total_reward_font.render(f"{self.total_reward}", True, (255, 255, 255))
+        total_reward_text_rect = total_reward_text_obj.get_rect()
+        total_reward_text_rect.center = (settings.WINDOW_WIDTH/2, settings.WINDOWS_HEIGHT/2)
+        self.window.blit(total_reward_text_obj, total_reward_text_rect)
 
     def render(self):
         self.window.fill((0, 0, 0))
