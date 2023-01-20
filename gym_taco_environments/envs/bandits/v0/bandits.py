@@ -103,32 +103,32 @@ class TwoArmedBanditEnv(gym.Env):
         text_obj = reward_font.render(f"{self.reward}", True, (255, 250, 26))
         text_rect = text_obj.get_rect()
 
-        if self.reward == 0:
+        if self.reward != 0:
             self.render_main_elements()
-            text_obj = reward_font.render(f"{self.reward}", True, (255, 255, 255))
+            text_obj = reward_font.render(f"{self.reward}", True, (255, 250, 26))
             text_rect.center = (x, 80)
             self.window.blit(text_obj, text_rect)
             pygame.display.update()
-            time.sleep(1)
+            time.sleep(0.1)
             self.window.fill((0, 0, 0))
             self.render_main_elements()
-            text_obj = reward_font.render(f"{self.reward}", True, (255, 250, 26))
+            text_obj = reward_font.render(f"{self.reward}", True, (255, 255, 255))
             self.window.blit(text_obj, text_rect)
             pygame.display.update()
-        else:
-            # Render the reward
-            for n in range(15):
-                self.window.fill((0, 0, 0))
-                self.render_main_elements()
-                text_rect.center = (x, 80 - n)
-                self.window.blit(text_obj, text_rect)
-                pygame.display.update()
-            for n in range(15):
-                self.window.fill((0, 0, 0))
-                self.render_main_elements()
-                text_rect.center = (x, 80 + n)
-                self.window.blit(text_obj, text_rect)
-                pygame.display.update()
+            
+        # Render the reward 
+        for n in range(15):
+            self.window.fill((0, 0, 0))
+            self.render_main_elements()
+            text_rect.center = (x, 80 - n)
+            self.window.blit(text_obj, text_rect)
+            pygame.display.update()
+        for n in range(15):
+            self.window.fill((0, 0, 0))
+            self.render_main_elements()
+            text_rect.center = (x, 80 + n)
+            self.window.blit(text_obj, text_rect)
+            pygame.display.update()
 
     def render(self):
         self._render_props()
