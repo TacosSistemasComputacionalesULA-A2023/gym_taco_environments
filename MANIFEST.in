@@ -1,2 +1,4 @@
 include gym_taco_environments/envs/bandits/v0/assets/fonts/*
 include gym_taco_environments/envs/bandits/v0/assets/graphics/*
+include gym_taco_environments/envs/frozen_lake/v0/assets/sounds/*
+include gym_taco_environments/envs/frozen_lake/v0/assets/graphics/*
