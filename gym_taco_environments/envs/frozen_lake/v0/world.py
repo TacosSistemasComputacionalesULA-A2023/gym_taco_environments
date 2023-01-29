@@ -53,12 +53,14 @@ class World:
         if terminated:
             if state == self.finish_state:
                 self.render_goal = False
-                settings.SOUNDS['win'].play()
+                if self.render_mode == 'human':
+                    settings.SOUNDS['win'].play()
             else:
                 self.tilemap.tiles[state].texture_name = "cracked_hole"
                 self.render_character = False
-                settings.SOUNDS['ice_cracking'].play()
-                settings.SOUNDS['water_splash'].play()
+                if self.render_mode == 'human':
+                    settings.SOUNDS['ice_cracking'].play()
+                    settings.SOUNDS['water_splash'].play()
 
         self.state = state
         self.action = action
