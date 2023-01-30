@@ -1,11 +1,21 @@
 from gym.envs.registration import register
 
 register(
-    id='TwoArmedBandit-v0',
-    entry_point='gym_taco_environments.envs:TwoArmedBanditEnvV0',
+    id="TwoArmedBandit-v0",
+    entry_point="gym_taco_environments.envs:TwoArmedBanditEnvV0",
 )
 
 register(
-    id='FrozenLake-v0',
-    entry_point='gym_taco_environments.envs:FrozenLakeEnvV0',
+    id="FrozenLake-v0",
+    entry_point="gym_taco_environments.envs:FrozenLakeEnvV0",
+)
+
+register(
+    id="RobotBattery-v0",
+    entry_point="gym_taco_environments.envs:RobotBatteryEnvV0",
+)
+
+register(
+    id="RobotMaze-v0",
+    entry_point="gym_taco_environments.envs:RobotMazeEnvV0",
 )
