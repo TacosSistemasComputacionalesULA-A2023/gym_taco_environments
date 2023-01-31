@@ -3,72 +3,79 @@ import time
 import numpy as np
 
 import gym
+from gym import spaces
+import pygame
 
+from . import settings
+from .world import World
+import json
+from .utils import utils
 
 class RobotBatteryEnv(gym.Env):
-    def __init__(self, render_mode=None):
+    metadata = {"render_modes": ["human", "ansi"], "render_fps": 4}
+
+    def __init__(self, **kwargs):
         super().__init__()
-        self.action_space = gym.spaces.Discrete(4)
-        self.observation_space = gym.spaces.Discrete(6)
-        self.P = {
-            0: {
-                0: [(1, 0, 0.0, False)],
-                1: [(1, 2, 0.0, False)],
-                2: [(1, 1, 0.0, False)],
-                3: [(1, 0, 0.0, False)],
-            },
-            1: {
-                0: [(1, 0, 0.0, False)],
-                1: [(1, 3, 0.0, False)],
-                2: [(1, 1, 0.0, False)],
-                3: [(1, 1, 0.0, False)],
-            },
-            2: {
-                0: [(1, 2, 0.0, False)],
-                1: [(1, 4, 0.0, False)],
-                2: [(1, 3, 0.0, False)],
-                3: [(1, 0, 0.0, False)],
-            },
-            3: {
-                0: [(1, 2, 0.0, False)],
-                1: [(1, 5, 1.0, True)],
-                2: [(1, 3, 0.0, False)],
-                3: [(1, 1, 0.0, False)],
-            },
-            4: {
-                0: [(1, 4, 0.0, False)],
-                1: [(1, 4, 0.0, False)],
-                2: [(1, 5, 1.0, True)],
-                3: [(1, 2, 0.0, False)],
-            },
-            5: {
-                0: [(1, 5, 0.0, True)],
-                1: [(1, 5, 0.0, True)],
-                2: [(1, 5, 0.0, True)],
-                3: [(1, 5, 0.0, True)],
-            },
-        }
-        self.reset()
+
+        generator = utils.SpaceGenerator(seed=settings.SEED)
+        self.render_mode = kwargs['render_mode']
+        self.observation_space = spaces.Discrete(settings.NUM_TILES)
+        self.action_space = spaces.Discrete(settings.NUM_ACTIONS)
+        self.current_action = 1
+        self.current_state = 0
+        self.current_reward = 0.0
+        self.delay = kwargs['delay']
+        self.P = generator.generate_robot_battery_pmatrix(settings.COLS)
+        settings.P = self.P
+        self.world = World(
+            "Robot Battery Environment",
+            self.current_state,
+            self.current_action,
+            self.render_mode
+        )
 
     def reset(self, seed=None, options=None):
         super().reset(seed=seed)
-        self.action = 0
-        self.reward = 0.0
-        self.state = 0
-        return self.state, {}
+
+        if options is not None:
+            if not isinstance(options, dict):
+                raise RuntimeError("Variable options is not a dictionary")
+            self.delay = options.get('delay', 0.5)
+
+        np.random.seed(seed)
+        self.current_state = 0
+        self.current_action = 1
+        self.world.reset(self.current_state, self.current_action)
+        return 0, {}
 
     def step(self, action):
-        self.action = action
-        self.reward = self.P[self.state][action][0][2]
-        terminated = self.P[self.state][action][0][3]
-        self.state = self.P[self.state][action][0][1]
+        self.current_action = action
+
+        possibilities = self.P[self.current_state][self.current_action] # type: ignore
+        p = 0
+        i = 0
+
+        r = np.random.random()
+        terminated = False
+        while r > p:
+            r -= p
+            p, self.current_state, self.current_reward, terminated = possibilities[i]
+            i += 1
+
+        self.world.update(
+            self.current_state,
+            self.current_action,
+            self.current_reward,
+            terminated
+        )
+
         self.render()
-        time.sleep(0.25)
-        return self.state, self.reward, terminated, False, {}
+        time.sleep(self.delay)
+
+        return self.current_state, self.current_reward, terminated, False, {}
 
     def render(self):
-        print(
-            "Action {}, reward {}, state {}".format(
-                self.action, self.reward, self.state
-            )
-        )
+        self.world.render(self.render_mode)
+
+    def close(self):
+        self.world.close()
