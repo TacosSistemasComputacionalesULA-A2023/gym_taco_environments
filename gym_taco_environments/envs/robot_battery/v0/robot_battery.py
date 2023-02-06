@@ -18,6 +18,8 @@ class RobotBatteryEnv(gym.Env):
         super().__init__()
 
         generator = utils.SpaceGenerator(seed=settings.SEED)
+        self.initial_battery = 16
+        self.current_battery = 16
         self.render_mode = kwargs['render_mode']
         self.observation_space = spaces.Discrete(settings.NUM_TILES)
         self.action_space = spaces.Discrete(settings.NUM_ACTIONS)
@@ -50,8 +52,16 @@ class RobotBatteryEnv(gym.Env):
 
     def step(self, action):
         self.current_action = action
+        if (self.current_battery > 0):
+            self.current_battery -= 1
+        
+        print(f'self.current_battery {self.current_battery}')
 
-        possibilities = self.P[self.current_state][self.current_action] # type: ignore
+        possibilities = self.P[self.current_state][self.current_action]
+
+        if np.random.random() < 1 - self.current_battery / self.initial_battery:
+            possibilities = self.P[self.current_state][np.random.randint(0, 4)]
+
         p = 0
         i = 0
 
