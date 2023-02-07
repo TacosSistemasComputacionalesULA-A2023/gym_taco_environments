@@ -2,6 +2,8 @@ import pathlib
 
 import pygame
 
+INITIAL_BATTERY_LEVELS = 100
+
 # Seeds for random number generation
 SEED = 203853699
 
@@ -38,10 +40,14 @@ TEXTURES = {
     'tile': pygame.image.load(BASE_DIR / "assets" / "graphics" / "tile.png"),
     'battery': pygame.image.load(BASE_DIR / "assets" / "graphics" / "battery.png"),
     'character': [
-        pygame.image.load(BASE_DIR / "assets" / "graphics" / "el_reververo_left.png"),
-        pygame.image.load(BASE_DIR / "assets" / "graphics" / "el_reververo_right.png"),
-        pygame.image.load(BASE_DIR / "assets" / "graphics" / "el_reververo_left.png"),
-        pygame.image.load(BASE_DIR / "assets" / "graphics" / "el_reververo_right.png"),
+        pygame.image.load(BASE_DIR / "assets" / "graphics" /
+                          "el_reververo_left.png"),
+        pygame.image.load(BASE_DIR / "assets" / "graphics" /
+                          "el_reververo_right.png"),
+        pygame.image.load(BASE_DIR / "assets" / "graphics" /
+                          "el_reververo_left.png"),
+        pygame.image.load(BASE_DIR / "assets" / "graphics" /
+                          "el_reververo_right.png"),
     ]
 }
 

@@ -11,6 +11,7 @@ from .world import World
 import json
 from .utils import utils
 
+
 class RobotBatteryEnv(gym.Env):
     metadata = {"render_modes": ["human", "ansi"], "render_fps": 4}
 
@@ -18,8 +19,8 @@ class RobotBatteryEnv(gym.Env):
         super().__init__()
 
         generator = utils.SpaceGenerator(seed=settings.SEED)
-        self.initial_battery = 16
-        self.current_battery = 16
+        self.initial_battery = settings.INITIAL_BATTERY_LEVELS
+        self.current_battery = settings.INITIAL_BATTERY_LEVELS
         self.render_mode = kwargs['render_mode']
         self.observation_space = spaces.Discrete(settings.NUM_TILES)
         self.action_space = spaces.Discrete(settings.NUM_ACTIONS)
@@ -54,11 +55,10 @@ class RobotBatteryEnv(gym.Env):
         self.current_action = action
         if (self.current_battery > 0):
             self.current_battery -= 1
-        
-        print(f'self.current_battery {self.current_battery}')
+        else:
+            self.current_battery = 0
 
-        possibilities = self.P[self.current_state][self.current_action]
-
+        possibilities = self.P[self.current_state][self.current_action]        # type: ignore
         if np.random.random() < 1 - self.current_battery / self.initial_battery:
             possibilities = self.P[self.current_state][np.random.randint(0, 4)]
 
