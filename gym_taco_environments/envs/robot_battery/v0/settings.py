@@ -2,6 +2,8 @@ import pathlib
 
 import pygame
 
+INITIAL_BATTERY_LEVELS = 100
+
 # Seeds for random number generation
 SEED = 203853699
 
@@ -21,8 +23,8 @@ VIRTUAL_WIDTH = TILE_SIZE * COLS
 VIRTUAL_HEIGHT = TILE_SIZE * ROWS
 
 # Scale factor between virtual screen and window
-H_SCALE = 4
-V_SCALE = 4
+H_SCALE = 2
+V_SCALE = 2
 
 # Resolution of the actual window
 WINDOW_WIDTH = VIRTUAL_WIDTH * H_SCALE
@@ -38,10 +40,14 @@ TEXTURES = {
     'tile': pygame.image.load(BASE_DIR / "assets" / "graphics" / "tile.png"),
     'battery': pygame.image.load(BASE_DIR / "assets" / "graphics" / "battery.png"),
     'character': [
-        pygame.image.load(BASE_DIR / "assets" / "graphics" / "el_reververo_left.png"),
-        pygame.image.load(BASE_DIR / "assets" / "graphics" / "el_reververo_right.png"),
-        pygame.image.load(BASE_DIR / "assets" / "graphics" / "el_reververo_left.png"),
-        pygame.image.load(BASE_DIR / "assets" / "graphics" / "el_reververo_right.png"),
+        pygame.image.load(BASE_DIR / "assets" / "graphics" /
+                          "el_reververo_left.png"),
+        pygame.image.load(BASE_DIR / "assets" / "graphics" /
+                          "el_reververo_right.png"),
+        pygame.image.load(BASE_DIR / "assets" / "graphics" /
+                          "el_reververo_left.png"),
+        pygame.image.load(BASE_DIR / "assets" / "graphics" /
+                          "el_reververo_right.png"),
     ]
 }
 

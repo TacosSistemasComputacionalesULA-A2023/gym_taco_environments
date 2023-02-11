@@ -22,7 +22,7 @@ class World:
         self.current_action = action
         self.render_character = True
         self.render_goal = True
-        self.tilemap = TileMap(None)
+        self.tilemap = None
         self.finish_state = None
         self._create_tilemap()
 
