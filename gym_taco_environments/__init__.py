@@ -11,8 +11,8 @@ register(
 )
 
 register(
-    id="FrozenLake-v1",
-    entry_point="gym_taco_environments.envs:FrozenLakeEnvV1",
+    id="FrozenMaze-v0",
+    entry_point="gym_taco_environments.envs:FrozenMazeEnvV0",
 )
 
 register(

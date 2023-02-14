@@ -10,7 +10,7 @@ from . import settings
 from .world import World
 
 
-class FrozenLakeEnv(gym.Env):
+class FrozenMazeEnv(gym.Env):
     metadata = {"render_modes": ["human", "ansi"], "render_fps": 4}
 
     def __init__(self, **kwargs):

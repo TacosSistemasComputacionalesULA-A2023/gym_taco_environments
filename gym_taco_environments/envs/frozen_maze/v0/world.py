@@ -10,7 +10,7 @@ class World:
         if self.render_mode == 'human':
             pygame.init()
             pygame.display.init()
-            pygame.mixer.music.play(loops=-1)
+            #pygame.mixer.music.play(loops=-1)
             self.render_surface = pygame.Surface(
                 (settings.VIRTUAL_WIDTH, settings.VIRTUAL_HEIGHT)
             )

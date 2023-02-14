@@ -51,16 +51,16 @@ TEXTURES = {
     ]
 }
 
-# Initializing the mixer
-pygame.mixer.init()
+# # Initializing the mixer
+# pygame.mixer.init()
 
-# Loading music
-pygame.mixer.music.load(BASE_DIR / "assets" / "sounds" / "ice_village.ogg")
+# # Loading music
+# pygame.mixer.music.load(BASE_DIR / "assets" / "sounds" / "ice_village.ogg")
 
-# Sound effects
-SOUNDS = {
-    'ice_cracking': pygame.mixer.Sound(BASE_DIR / "assets" / "sounds" / "ice_cracking.ogg"),
-    'win': pygame.mixer.Sound(BASE_DIR / "assets" / "sounds" / "win.ogg")
-}
+# # Sound effects
+# SOUNDS = {
+#     'ice_cracking': pygame.mixer.Sound(BASE_DIR / "assets" / "sounds" / "ice_cracking.ogg"),
+#     'win': pygame.mixer.Sound(BASE_DIR / "assets" / "sounds" / "win.ogg")
+# }
 
 P = {}

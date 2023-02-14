@@ -2,9 +2,9 @@ include gym_taco_environments/envs/bandits/v0/assets/fonts/*
 include gym_taco_environments/envs/bandits/v0/assets/graphics/*
 include gym_taco_environments/envs/frozen_lake/v0/assets/sounds/*
 include gym_taco_environments/envs/frozen_lake/v0/assets/graphics/*
-include gym_taco_environments/envs/frozen_lake/v1/assets/sounds/*
-include gym_taco_environments/envs/frozen_lake/v1/assets/graphics/*
-include gym_taco_environments/envs/frozen_lake/v1/utils/*
+include gym_taco_environments/envs/frozen_maze/v0/assets/sounds/*
+include gym_taco_environments/envs/frozen_maze/v0/assets/graphics/*
+include gym_taco_environments/envs/frozen_maze/v0/utils/*
 include gym_taco_environments/envs/robot_battery/v0/assets/sounds/*
 include gym_taco_environments/envs/robot_battery/v0/assets/graphics/*
 include gym_taco_environments/envs/robot_battery/v0/utils/*
