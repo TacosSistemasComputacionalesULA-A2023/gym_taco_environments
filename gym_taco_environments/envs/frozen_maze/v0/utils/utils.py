@@ -12,7 +12,7 @@ class SpaceGenerator:
     def generate_frozen_lake_maze_tuples(
         self, action: int, state: int, options: int, height: int, width: int, maze, entrance_cell, exit_cell
     ) -> List[Tuple]:
-        if maze[math.floor(state/width)-1][state % width] == 'w':
+        if maze[math.floor(state/width)][state % width] == 'w':
             return [(1, state, 0.0, False)]
 
         size = height*width
@@ -82,10 +82,9 @@ class SpaceGenerator:
 
     def generate_frozen_lake_maze_pmatrix(
         self, height: int, width: int
-    ) -> Dict[int, Dict[int, List[Tuple]]]:
+    ):
         maze, entrance_cell, exit_cell = self.maze_generator.generate_prim_maze(
             height, width)
-        self.maze_generator.print_prim_maze(maze, height, width)
         result = {}
         i = 0
         for state in range(height*width):
@@ -98,11 +97,11 @@ class SpaceGenerator:
             result[i] = states
             i += 1
 
-        return result
+        return result, maze, (entrance_cell[0]*width)+(entrance_cell[1]%width)
 
     def generate_pmatrix(
         self, problem: str, height: int, width: int
-    ) -> Dict[int, Dict[int, List[Tuple]]]:
+    ):
         if problem == "frozen_lake_maze":
             return self.generate_frozen_lake_maze_pmatrix(height, width)
 

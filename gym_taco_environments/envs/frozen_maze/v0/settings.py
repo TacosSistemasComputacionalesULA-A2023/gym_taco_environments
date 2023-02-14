@@ -7,8 +7,8 @@ from .utils.utils import SpaceGenerator
 TILE_SIZE = 32
 
 # Grid
-ROWS = 4
-COLS = 4
+ROWS = 16
+COLS = 16
 SEED = 111111
 
 NUM_TILES = ROWS * COLS
@@ -39,6 +39,7 @@ TEXTURES = {
     'cracked_hole': pygame.image.load(BASE_DIR / "assets" / "graphics" / "cracked_hole.png"),
     'goal': pygame.image.load(BASE_DIR / "assets" / "graphics" / "goal.png"),
     'stool': pygame.image.load(BASE_DIR / "assets" / "graphics" / "stool.png"),
+    'tile': pygame.image.load(BASE_DIR / "assets" / "graphics" / "tile.png"),
     'character': [
         pygame.image.load(BASE_DIR / "assets" / "graphics" / "elf_left.png"),
         pygame.image.load(BASE_DIR / "assets" / "graphics" / "elf_down.png"),
@@ -61,4 +62,4 @@ TEXTURES = {
 # }
 
 # Default P matrix
-P = SpaceGenerator(SEED).generate_frozen_lake_maze_pmatrix(ROWS, COLS)
+P, MAZE, ENTER_STATE = SpaceGenerator(SEED).generate_frozen_lake_maze_pmatrix(ROWS, COLS)
