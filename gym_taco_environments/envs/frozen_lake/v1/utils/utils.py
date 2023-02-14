@@ -1,5 +1,5 @@
 from typing import List, Tuple, Dict
-from maze_generator import prim_maze
+from .maze_generator import prim_maze
 import numpy
 import math
 
