@@ -49,17 +49,17 @@ TEXTURES = {
 }
 
 # Initializing the mixer
-# pygame.mixer.init()
+pygame.mixer.init()
 
 # # Loading music
-# pygame.mixer.music.load(BASE_DIR / "assets" / "sounds" / "ice_village.ogg")
+pygame.mixer.music.load(BASE_DIR / "assets" / "sounds" / "ice_village.ogg")
 
 # # Sound effects
-# SOUNDS = {
-#     'ice_cracking': pygame.mixer.Sound(BASE_DIR / "assets" / "sounds" / "ice_cracking.ogg"),
-#     'water_splash': pygame.mixer.Sound(BASE_DIR / "assets" / "sounds" / "water_splash.ogg"),
-#     'win': pygame.mixer.Sound(BASE_DIR / "assets" / "sounds" / "win.ogg")
-# }
+SOUNDS = {
+    'ice_cracking': pygame.mixer.Sound(BASE_DIR / "assets" / "sounds" / "ice_cracking.ogg"),
+    'water_splash': pygame.mixer.Sound(BASE_DIR / "assets" / "sounds" / "water_splash.ogg"),
+    'win': pygame.mixer.Sound(BASE_DIR / "assets" / "sounds" / "win.ogg")
+}
 
 # Default P matrix
 P, MAZE, ENTER_STATE = SpaceGenerator(SEED).generate_frozen_lake_maze_pmatrix(ROWS, COLS)
