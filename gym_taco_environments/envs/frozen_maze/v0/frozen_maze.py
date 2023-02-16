@@ -10,7 +10,7 @@ from . import settings
 from .world import World
 
 
-class FrozenLakeEnv(gym.Env):
+class FrozenMazeEnv(gym.Env):
     metadata = {"render_modes": ["human", "ansi"], "render_fps": 4}
 
     def __init__(self, **kwargs):
@@ -19,7 +19,7 @@ class FrozenLakeEnv(gym.Env):
         self.observation_space = spaces.Discrete(settings.NUM_TILES)
         self.action_space = spaces.Discrete(settings.NUM_ACTIONS)
         self.current_action = 1
-        self.current_state = 0
+        self.current_state = settings.ENTER_STATE
         self.current_reward = 0.0
         self.delay = kwargs['delay']
         self.P = settings.P
@@ -39,7 +39,7 @@ class FrozenLakeEnv(gym.Env):
             self.delay = options.get('delay', 0.5)
 
         np.random.seed(seed)
-        self.current_state = 0
+        self.current_state = settings.ENTER_STATE
         self.current_action = 1
         self.world.reset(self.current_state, self.current_action)
         return 0, {}

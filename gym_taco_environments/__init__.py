@@ -11,6 +11,11 @@ register(
 )
 
 register(
+    id="FrozenMaze-v0",
+    entry_point="gym_taco_environments.envs:FrozenMazeEnvV0",
+)
+
+register(
     id="RobotBattery-v0",
     entry_point="gym_taco_environments.envs:RobotBatteryEnvV0",
 )

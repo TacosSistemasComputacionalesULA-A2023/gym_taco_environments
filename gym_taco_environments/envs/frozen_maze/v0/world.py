@@ -1,6 +1,7 @@
 import pygame
 
 from . import settings
+import math
 from .tilemap import TileMap
 
 
@@ -27,7 +28,14 @@ class World:
         self._create_tilemap()
 
     def _create_tilemap(self):
-        tile_texture_names = ["ice" for _ in range(settings.NUM_TILES)]
+        tile_texture_names = []
+        
+        for tile_num in range(settings.NUM_TILES):
+            if settings.MAZE[math.floor(tile_num/settings.COLS)][tile_num % settings.COLS] == 'w':
+                tile_texture_names.append("tile")
+            else:
+                tile_texture_names.append("ice")
+
         for _, actions_table in settings.P.items():
             for _, possibilities in actions_table.items():
                 for _, state, reward, terminated in possibilities:
@@ -55,12 +63,14 @@ class World:
                 self.render_goal = False
                 if self.render_mode == 'human':
                     settings.SOUNDS['win'].play()
+                    pass
             else:
                 self.tilemap.tiles[state].texture_name = "cracked_hole"
                 self.render_character = False
                 if self.render_mode == 'human':
                     settings.SOUNDS['ice_cracking'].play()
                     settings.SOUNDS['water_splash'].play()
+                    pass
 
         self.state = state
         self.action = action
