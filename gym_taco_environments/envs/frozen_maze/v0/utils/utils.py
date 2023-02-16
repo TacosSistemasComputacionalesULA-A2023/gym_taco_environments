@@ -15,6 +15,9 @@ class SpaceGenerator:
         if maze[math.floor(state/width)][state % width] == 'w':
             return [(1, state, 0.0, False)]
 
+        if maze[math.floor(state/width)][state % width] != 'w' and numpy.random.rand() < 0.01:
+            return [(1, state, 0.0, True)]
+
         size = height*width
         if state == (exit_cell[0]*width+exit_cell[1]):
             return [(1 / options, state, 1.0, True) for _ in range(options)]
