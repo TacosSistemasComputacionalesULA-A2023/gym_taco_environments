@@ -93,7 +93,7 @@ class SpaceGenerator:
         for state in range(height*width):
             states = {}
             for action in range(4):
-                options = self.random.randint(1, 4)
+                options = 4
                 states[action] = self.generate_frozen_lake_maze_tuples(
                     action, state, options, height, width, maze, entrance_cell, exit_cell
                 )
