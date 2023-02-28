@@ -2,3 +2,4 @@ from gym_taco_environments.envs.bandits.v0.bandits import TwoArmedBanditEnv as T
 from gym_taco_environments.envs.frozen_lake.v0.frozen_lake import FrozenLakeEnv as FrozenLakeEnvV0
 from gym_taco_environments.envs.frozen_maze.v0.frozen_maze import FrozenMazeEnv as FrozenMazeEnvV0
 from gym_taco_environments.envs.robot_battery.v0.robot_battery import RobotBatteryEnv as RobotBatteryEnvV0
+from gym_taco_environments.envs.princess.v0.princess import PrincessEnv as PrincessEnvV0

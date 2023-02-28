@@ -8,3 +8,6 @@ include gym_taco_environments/envs/frozen_maze/v0/utils/*
 include gym_taco_environments/envs/robot_battery/v0/assets/sounds/*
 include gym_taco_environments/envs/robot_battery/v0/assets/graphics/*
 include gym_taco_environments/envs/robot_battery/v0/utils/*
+include gym_taco_environments/envs/princess/v0/game/sounds/*
+include gym_taco_environments/envs/princess/v0/game/graphics/*
+include gym_taco_environments/envs/princess/v0/game/env.txt
