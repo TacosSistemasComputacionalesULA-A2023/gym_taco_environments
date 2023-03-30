@@ -24,3 +24,8 @@ register(
     id="RobotMaze-v0",
     entry_point="gym_taco_environments.envs:RobotMazeEnvV0",
 )
+
+register(
+    id="Princess-v0",
+    entry_point="gym_taco_environments.envs:PrincessEnvV0",
+)
