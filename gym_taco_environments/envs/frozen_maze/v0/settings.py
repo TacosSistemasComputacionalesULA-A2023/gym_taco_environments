@@ -7,8 +7,8 @@ from .utils.utils import SpaceGenerator
 TILE_SIZE = 32
 
 # Grid
-ROWS = 16
-COLS = 16
+ROWS = 6
+COLS = 6
 SEED = None
 
 NUM_TILES = ROWS * COLS
