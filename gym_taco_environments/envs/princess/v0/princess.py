@@ -42,11 +42,6 @@ class PrincessEnv(gym.Env):
 
     def compute_step(self, action: int, mc: int, s1: int, s2: int):
         self.map = self.game.world.tile_map.map
-
-        #Convert the current loop position to the game position
-        current_mc_pos = self.get_game_position(mc)
-        current_s1_pos = self.get_game_position(s1)
-        current_s2_pos = self.get_game_position(s2)
         
         #Helper tuple to apply action movements
         move = (0, 0)
@@ -59,15 +54,17 @@ class PrincessEnv(gym.Env):
         else:
             move = (-1, 0)
 
+        #Convert the current loop position to the game position
+        current_mc_pos = self.get_game_position(mc)
+        current_s1_pos = self.get_game_position(s1)
+        current_s2_pos = self.get_game_position(s2)
+
         #Action on the main character
         next_row = current_mc_pos[0]+move[0]
         next_col = current_mc_pos[1]+move[1]
         
-        #Conditions for characters movement
-        mc_can_move = (0 <= next_row < self.game_rows
-            and 0 <= next_col < self.game_cols
-            and (next_row, next_col) != current_s1_pos
-            and (next_row, next_col) != current_s2_pos
+        mc_can_move = (0 <= next_row < self.game_rows and 0 <= next_col < self.game_cols
+            and (next_row, next_col) != current_s1_pos and (next_row, next_col) != current_s2_pos
             and self.map[next_row][next_col] != 0)
 
         if (mc_can_move):
@@ -76,13 +73,11 @@ class PrincessEnv(gym.Env):
             next_mc_pos = current_mc_pos 
         
         #Action on s1, same direction as mc
-        next_row = current_s1_pos[0]+move[0]*-1
-        next_col = current_s1_pos[1]+move[1]*-1
+        next_row = current_s1_pos[0]+(-1)*move[0]
+        next_col = current_s1_pos[1]+(-1)*move[1]
 
-        s1_can_move = (0 <= next_row < self.game_rows
-            and 0 <= next_col < self.game_cols
-            and (next_row, next_col) != current_s2_pos
-            and self.map[next_row][next_col] != 0)
+        s1_can_move = (0 <= next_row < self.game_rows and 0 <= next_col < self.game_cols
+            and (next_row, next_col) != current_s2_pos and self.map[next_row][next_col] != 0)
         
         if (s1_can_move):
             next_s1_pos = (next_row, next_col)
@@ -93,10 +88,8 @@ class PrincessEnv(gym.Env):
         next_row = current_s2_pos[0]+move[0]
         next_col = current_s2_pos[1]+move[1]
         
-        s2_can_move = (0 <= next_row < self.game_rows
-            and 0 <= next_col < self.game_cols
-            and (next_row, next_col) != next_s1_pos     
-            and self.map[next_row][next_col] != 0)
+        s2_can_move = (0 <= next_row < self.game_rows and 0 <= next_col < self.game_cols
+            and (next_row, next_col) != next_s1_pos and self.map[next_row][next_col] != 0)
 
         if (s2_can_move):
             next_s2_pos = (next_row, next_col)
@@ -111,11 +104,8 @@ class PrincessEnv(gym.Env):
         reward = 0.0
         terminated = False
         current_state = self.__compute_state_result(mc, s1, s2)
-        next_state = self.__compute_state_result(
-            self.get_game_state(*next_mc_pos), 
-            self.get_game_state(*next_s1_pos), 
-            self.get_game_state(*next_s2_pos)
-        )
+        next_state = self.__compute_state_result(self.get_game_state(*next_mc_pos), 
+            self.get_game_state(*next_s1_pos), self.get_game_state(*next_s2_pos))
         
         #Mc lost?
         if (next_mc_pos == next_s1_pos or next_mc_pos == next_s2_pos):
@@ -155,10 +145,11 @@ class PrincessEnv(gym.Env):
                         state = self.__compute_state_result(mc_state, s1_state, s2_state)
 
                         if (state == self.goal):
-                            self.P[state][action].append((probability, state, 0.0, True))
+                            self.P[state][action] = [(probability, state, 0.0, True)]
                         else:
                             next_state, reward, terminated = self.compute_step(action, mc_state, s1_state, s2_state)
-                            self.P[state][action].append((probability, next_state, reward, terminated))
+                            
+                            self.P[state][action] = [(probability, next_state, reward, terminated)]
 
     def reset(self, seed=None, options=None):
         super().reset(seed=seed)
