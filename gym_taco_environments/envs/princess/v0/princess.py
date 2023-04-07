@@ -43,16 +43,25 @@ class PrincessEnv(gym.Env):
     def compute_step(self, action: int, mc: int, s1: int, s2: int):
         self.map = self.game.world.tile_map.map
         
-        #Helper tuple to apply action movements
-        move = (0, 0)
+        #Helper variables to apply action movements
+        move_row = 0
+        move_col = 0
+
         if (action == 0):
-            move = (0, -1)
+            move_row = 0
+            move_col = -1
+
         elif (action == 1):
-            move = (1, 0)
+            move_row = 1
+            move_col = 0
+
         elif (action == 2):
-            move = (0, 1)
+            move_row = 0
+            move_col = 1
+
         else:
-            move = (-1, 0)
+            move_row = -1
+            move_col = 0
 
         #Convert the current loop position to the game position
         current_mc_pos = self.get_game_position(mc)
@@ -60,8 +69,8 @@ class PrincessEnv(gym.Env):
         current_s2_pos = self.get_game_position(s2)
 
         #Action on the main character
-        next_row = current_mc_pos[0]+move[0]
-        next_col = current_mc_pos[1]+move[1]
+        next_row = current_mc_pos[0]+move_row
+        next_col = current_mc_pos[1]+move_col
         
         mc_can_move = (0 <= next_row < self.game_rows and 0 <= next_col < self.game_cols
             and (next_row, next_col) != current_s1_pos and (next_row, next_col) != current_s2_pos
@@ -73,8 +82,8 @@ class PrincessEnv(gym.Env):
             next_mc_pos = current_mc_pos 
         
         #Action on s1, same direction as mc
-        next_row = current_s1_pos[0]+(-1)*move[0]
-        next_col = current_s1_pos[1]+(-1)*move[1]
+        next_row = current_s1_pos[0]+(-1)*move_row
+        next_col = current_s1_pos[1]+(-1)*move_col
 
         s1_can_move = (0 <= next_row < self.game_rows and 0 <= next_col < self.game_cols
             and (next_row, next_col) != current_s2_pos and self.map[next_row][next_col] != 0)
@@ -85,8 +94,8 @@ class PrincessEnv(gym.Env):
             next_s1_pos = current_s1_pos
 
         #Action on s1, opposite direction than mc
-        next_row = current_s2_pos[0]+move[0]
-        next_col = current_s2_pos[1]+move[1]
+        next_row = current_s2_pos[0]+move_row
+        next_col = current_s2_pos[1]+move_col
         
         s2_can_move = (0 <= next_row < self.game_rows and 0 <= next_col < self.game_cols
             and (next_row, next_col) != next_s1_pos and self.map[next_row][next_col] != 0)
