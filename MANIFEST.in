@@ -11,3 +11,5 @@ include gym_taco_environments/envs/robot_battery/v0/utils/*
 include gym_taco_environments/envs/princess/v0/game/sounds/*
 include gym_taco_environments/envs/princess/v0/game/graphics/*
 include gym_taco_environments/envs/princess/v0/game/env.txt
+include gym_taco_environments/envs/blocky_rocks/v0/game/graphics/*
+include gym_taco_environments/envs/blocky_rocks/v0/game/env.txt

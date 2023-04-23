@@ -29,3 +29,8 @@ register(
     id="Princess-v0",
     entry_point="gym_taco_environments.envs:PrincessEnvV0",
 )
+
+register(
+    id="BlockyRocks-v0",
+    entry_point="gym_taco_environments.envs:BlockyRocksEnvV0",
+)
