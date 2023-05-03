@@ -11,7 +11,7 @@ from .Tilemap import TileMap
 class Character(Entity):
     def __init__(self, x, y, scene):
         super().__init__(
-            x, y, settings.PLAYER_WIDTH, settings.PLAYER_HEIGHT, "character", 1, scene
+            x, y, settings.PLAYER_WIDTH, settings.PLAYER_HEIGHT, "miner", 1, scene
         )
         self.direction = 3
         self.frames_map = [10, 7, 4, 1]

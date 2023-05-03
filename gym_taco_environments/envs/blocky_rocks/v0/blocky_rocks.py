@@ -15,24 +15,22 @@ class BlockyRocksEnv(gym.Env):
         super().__init__()
         self.render_mode = kwargs.get("render_mode")
         self.game = Game("Blocks Puzzle Env", self.render_mode)
-        self.mc_n = self.game.scene.tile_map.rows * self.game.scene.tile_map.cols
-        self.b1_n = 24
-        self.b2_n = 23
+        self.n = self.game.scene.tile_map.rows * self.game.scene.tile_map.cols
         self.num_directions = 4
         self.observation_space = spaces.Discrete(
-            self.mc_n * self.b1_n * self.b2_n * self.num_directions
+            self.n * (self.n - 1) * (self.n - 2) * self.num_directions
         )
+        self.delay = kwargs.get("delay")
         self.action_space = spaces.Discrete(5)
         self.current_state = self.game.get_state()
         self.current_action = 0
         self.current_reward = 0.0
-        self.delay = 1
 
     def __compute_state_result(self, d, mc, s1, s2):
         return (
-            d * self.mc_n * self.b1_n * self.b2_n
-            + mc * self.b1_n * self.b2_n
-            + s1 * self.b2_n
+            d * self.n * (self.n - 1) * (self.n - 2)
+            + mc * (self.n - 1) * (self.n - 2)
+            + s1 * (self.n - 2)
             + s2
         )
 
@@ -42,7 +40,6 @@ class BlockyRocksEnv(gym.Env):
         if options is not None:
             if not isinstance(options, dict):
                 raise RuntimeError("Variable options is not a dictionary")
-            self.delay = options.get("delay", 0.5)
 
         np.random.seed(seed)
 
@@ -56,7 +53,7 @@ class BlockyRocksEnv(gym.Env):
         self.current_action = action
 
         old_state = self.current_state
-        self.current_state, terminated = self.game.update(self.current_action)
+        self.current_state, terminated, truncated = self.game.update(self.current_action)
 
         self.current_reward = -1.0
 
@@ -64,6 +61,8 @@ class BlockyRocksEnv(gym.Env):
             self.current_reward = -10.0
         elif terminated:
             self.current_reward = 0
+        elif truncated:
+            self.current_reward = -1000.0
 
         if self.render_mode is not None:
             self.render()
@@ -73,7 +72,7 @@ class BlockyRocksEnv(gym.Env):
             self.__compute_state_result(*self.current_state),
             self.current_reward,
             terminated,
-            False,
+            truncated,
             {},
         )
 

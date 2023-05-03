@@ -14,19 +14,21 @@ ENVIRONMENT = BASE_DIR / "env.txt"
 
 # Graphics
 GAME_TEXTURES = {
-    "ice": pygame.image.load(BASE_DIR / "graphics" / "ice.png"),
-    "snow": pygame.image.load(BASE_DIR / "graphics" / "snow.png"),
-    "box": pygame.image.load(BASE_DIR / "graphics" / "box.png"),
-    "character": pygame.image.load(BASE_DIR / "graphics" / "character.png"),
+    "ground": pygame.image.load(BASE_DIR / "graphics" / "ground.png"),
+    "rock": pygame.image.load(BASE_DIR / "graphics" / "rock.png"),
+    "boulder": pygame.image.load(BASE_DIR / "graphics" / "boulder.png"),
+    "miner": pygame.image.load(BASE_DIR / "graphics" / "miner.png"),
     "switch": pygame.image.load(BASE_DIR / "graphics" / "switch.png"),
+    "hole": pygame.image.load(BASE_DIR / "graphics" / "hole.png"),
 }
 
 # Frames
 GAME_FRAMES = {
-    "ice": [pygame.Rect(0, 0, TILE_SIZE, TILE_SIZE)],
-    "snow": [pygame.Rect(0, 0, TILE_SIZE, TILE_SIZE)],
-    "box": [pygame.Rect(0, 0, TILE_SIZE, TILE_SIZE)],
-    "character": generate_frames(
-        GAME_TEXTURES["character"], PLAYER_WIDTH, PLAYER_HEIGHT
+    "ground": [pygame.Rect(0, 0, TILE_SIZE, TILE_SIZE)],
+    "rock": [pygame.Rect(0, 0, TILE_SIZE, TILE_SIZE)],
+    "boulder": [pygame.Rect(0, 0, TILE_SIZE, TILE_SIZE)],
+    "hole": [pygame.Rect(0, 0, TILE_SIZE, TILE_SIZE)],
+    "miner": generate_frames(
+        GAME_TEXTURES["miner"], PLAYER_WIDTH, PLAYER_HEIGHT
     ),
 }

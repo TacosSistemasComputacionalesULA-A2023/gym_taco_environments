@@ -1,6 +1,6 @@
 from .. import settings
 
-from .Box import Box
+from .Boulder import Boulder
 from .Character import Character
 from .Tilemap import Tile, TileMap, TILE_TEXTURE_DEF
 
@@ -12,6 +12,8 @@ class Scene:
         self.box1 = None
         self.box2 = None
         self.target = None
+        self.hole = None
+        self.passed_through_hole = False
         self.__load_environment()
 
         self.actions_map = [
@@ -37,7 +39,8 @@ class Scene:
 
                 for j, s in enumerate(row):
                     x, y = TileMap.to_screen(i, j)
-                    self.tile_map.tiles[i][j] = Tile(x, y, TILE_TEXTURE_DEF[s], 0)
+                    self.tile_map.tiles[i][j] = Tile(
+                        x, y, TILE_TEXTURE_DEF[s], 0)
                     self.tile_map.map[i][j] = s
 
             row, col = f.readline().split(" ")
@@ -48,17 +51,20 @@ class Scene:
             row, col = f.readline().split(" ")
             row, col = int(row), int(col)
             x, y = TileMap.to_screen(row, col)
-            self.box1 = Box(x, y, self)
+            self.box1 = Boulder(x, y, self)
             self.tile_map.tiles[row][col].busy = True
 
             row, col = f.readline().split(" ")
             row, col = int(row), int(col)
             x, y = TileMap.to_screen(row, col)
-            self.box2 = Box(x, y, self)
+            self.box2 = Boulder(x, y, self)
             self.tile_map.tiles[row][col].busy = True
 
             row, col = f.readline().split(" ")
             self.target = int(row), int(col)
+
+            row, col = f.readline().split(" ")
+            self.hole = int(row), int(col)
 
     def reset(self):
         self.tile_map = None
@@ -66,6 +72,7 @@ class Scene:
         self.box1 = None
         self.box2 = None
         self.target = None
+        self.passed_through_hole = False
         self.__load_environment()
         return self.get_state()
 
@@ -107,15 +114,27 @@ class Scene:
             self.box1.push(os_i, os_j)
         elif push_target == b2_t:
             self.box2.push(os_i, os_j)
+            
+        b1_t_m = TileMap.to_map(self.box1.x, self.box1.y)
+        b2_t_m = TileMap.to_map(self.box2.x, self.box2.y)
+
+        if b1_t != b1_t_m:
+            self.passed_through_hole = (b1_t_m[0] == b1_t[0] == self.hole[0]) or (b1_t_m[1] == b1_t[1] == self.hole[1])
+        elif b2_t != b2_t_m:
+            self.passed_through_hole = (b2_t_m[0] == b2_t[0] == self.hole[0]) or (b2_t_m[1] == b2_t[1] == self.hole[1])
 
     def check_win(self):
         b1 = TileMap.to_map(self.box1.x, self.box1.y)
         b2 = TileMap.to_map(self.box2.x, self.box2.y)
         return self.target in (b1, b2)
 
+    def check_loss(self):
+        return self.passed_through_hole
+
     def render(self, surface):
         self.tile_map.render(surface)
-        surface.blit(settings.GAME_TEXTURES["switch"], TileMap.to_screen(*self.target))
+        surface.blit(
+            settings.GAME_TEXTURES["switch"], TileMap.to_screen(*self.target))
         self.box1.render(surface)
         self.box2.render(surface)
         self.character.render(surface)
